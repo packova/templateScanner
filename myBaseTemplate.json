@@ -234,6 +234,21 @@
       }
     },
 
+     "EC2Instance2" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
+        "KeyName"  : { "Ref" : "KeyName" },
+        "NetworkInterfaces" : [ {
+          "NetworkInterfaceId" : {"Ref" : "Eth0" },
+          "DeviceIndex" : "0"
+        }],
+        "Tags"     : [ {"Key" : "Name", "Value" : "myInstance" } ]
+      }
+    },
+
     "Eth0" : {
       "Type" : "AWS::EC2::NetworkInterface",
       "Properties" : {
